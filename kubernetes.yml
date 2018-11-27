@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: hello-sping
-        image: mingudkr/hello-sping:latest
+        image: mingudkr/hello-spring:latest
         readinessProbe:
           httpGet:
             path: /
