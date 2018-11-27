@@ -1,0 +1,42 @@
+---
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: hello-sping
+  labels:
+    service-name: hello-sping
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service-name: hello-sping
+  template:
+    metadata:
+      name: hello-sping
+      labels:
+        service-name: hello-sping
+    spec:
+      containers:
+      - name: hello-sping
+        image: mingudkr/hello-sping
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-sping
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 31111
+  selector:
+    service-name: hello-sping
